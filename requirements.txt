@@ -1,0 +1,13 @@
+flask
+flask-cors
+flask-limiter
+paho-mqtt
+numpy
+scikit-learn
+catboost
+sqlalchemy
+flask-sqlalchemy
+python-dotenv
+pandas
+plotly
+flask-jwt-extended

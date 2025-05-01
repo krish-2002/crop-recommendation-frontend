@@ -1,0 +1,11 @@
+N,P,K,temperature,humidity,ph,rainfall,soil_type,weather,region,label
+90,42,43,20.87,82.00,6.50,202.93,alluvial,sunny,karnataka,rice
+85,58,41,21.77,80.32,7.04,226.66,black,rainy,maharashtra,rice
+60,55,44,23.00,82.33,7.84,263.96,red,cloudy,tamil_nadu,maize
+74,35,40,26.49,80.16,6.98,242.86,laterite,sunny,kerala,sugarcane
+78,42,42,20.13,81.83,7.19,262.72,alluvial,rainy,west_bengal,rice
+69,37,42,23.49,82.83,6.86,216.41,black,cloudy,gujarat,cotton
+69,51,43,22.87,82.50,6.95,195.94,red,sunny,andhra_pradesh,groundnut
+94,38,43,21.10,82.00,7.16,226.89,laterite,rainy,karnataka,rice
+89,39,41,22.52,80.67,7.04,263.96,alluvial,cloudy,maharashtra,rice
+68,45,44,23.00,82.33,7.24,242.86,black,sunny,tamil_nadu,maize 

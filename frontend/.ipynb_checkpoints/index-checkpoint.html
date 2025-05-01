@@ -1,0 +1,18 @@
+<html>
+<head><title>Crop Recommendation</title></head>
+<body>
+<h2>Get Crop Recommendation</h2>
+<button onclick="sendPredictionRequest()">Predict</button>
+<script>
+  async function sendPredictionRequest() {
+    const response = await fetch('http://localhost:5000/predict', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({features: [45, 80, 23, 6.5, 200]})
+    });
+    const result = await response.json();
+    alert("Recommended crop: " + result.crop);
+  }
+</script>
+</body>
+</html>
