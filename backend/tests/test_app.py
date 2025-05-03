@@ -42,7 +42,9 @@ class TestApp(unittest.TestCase):
                 temperature=25.5,
                 humidity=60.0,
                 moisture=500,
-                ph=6.5
+                nitrogen=45.0,
+                phosphorus=35.0,
+                potassium=40.0
             )
             db.session.add(sensor_data)
             db.session.commit()

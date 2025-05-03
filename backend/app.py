@@ -88,7 +88,7 @@ def on_message(client, userdata, msg):
         try:
             payload = json.loads(msg.payload.decode())
             # Validate payload
-            required_fields = ['temperature', 'humidity', 'moisture', 'ph']
+            required_fields = ['temperature', 'humidity', 'moisture', 'nitrogen', 'phosphorus', 'potassium']
             if not all(field in payload for field in required_fields):
                 print("❌ Invalid payload: missing required fields")
                 return
@@ -98,7 +98,9 @@ def on_message(client, userdata, msg):
                 temperature=payload['temperature'],
                 humidity=payload['humidity'],
                 moisture=payload['moisture'],
-                ph=payload['ph']
+                nitrogen=payload['nitrogen'],
+                phosphorus=payload['phosphorus'],
+                potassium=payload['potassium']
             )
             db.session.add(sensor_data)
             db.session.commit()
@@ -160,7 +162,7 @@ def predict():
         logger.info(f"Received prediction request with data: {data}")
         
         # Validate required fields
-        required_fields = ['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall', 
+        required_fields = ['N', 'P', 'K', 'temperature', 'humidity', 'moisture', 'rainfall', 
                          'soil_type', 'weather', 'region']
         missing_fields = [field for field in required_fields if field not in data]
         if missing_fields:
@@ -231,7 +233,9 @@ def get_system_status():
                 'temperature': latest_data.temperature if latest_data else None,
                 'humidity': latest_data.humidity if latest_data else None,
                 'moisture': latest_data.moisture if latest_data else None,
-                'ph': latest_data.ph if latest_data else None
+                'nitrogen': latest_data.nitrogen if latest_data else None,
+                'phosphorus': latest_data.phosphorus if latest_data else None,
+                'potassium': latest_data.potassium if latest_data else None
             }
         )
         db.session.add(system_status)

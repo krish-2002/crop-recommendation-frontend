@@ -1,13 +1,27 @@
-# Crop Recommendation System
+# Smart Crop Recommendation System
 
-A smart agriculture system that uses IoT sensors and machine learning to recommend suitable crops based on soil conditions and environmental factors.
+This system uses various sensors to collect soil and environmental data to recommend the best crop for farming.
+
+## Hardware Requirements
+- ESP32 Development Board
+- DHT11 Temperature and Humidity Sensor
+- Soil Moisture Sensor
+- NPK Sensor (Nitrogen, Phosphorus, Potassium)
+- Jumper Wires
+- Breadboard
+
+## Software Requirements
+- Python 3.8+
+- Arduino IDE
+- Required Python packages (listed in requirements.txt)
+- Required Arduino libraries (listed in esp32/README.md)
 
 ## System Components
 
 1. **ESP32 Sensor Node**
    - DHT11 Temperature and Humidity Sensor
    - Soil Moisture Sensor
-   - pH Sensor
+   - NPK Sensor
    - MQTT Communication
 
 2. **Backend Server**

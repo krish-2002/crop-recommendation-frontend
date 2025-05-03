@@ -2,6 +2,7 @@
 #include <PubSubClient.h>
 #include <DHT.h>
 #include <ArduinoJson.h>
+#include <ModbusMaster.h>
 
 // WiFi credentials
 const char* ssid = "YOUR_WIFI_SSID";
@@ -15,13 +16,15 @@ const char* mqtt_topic = "sensor/data";
 // Sensor pins
 #define DHT_PIN 4
 #define MOISTURE_PIN 34
-#define PH_PIN 35
+#define NPK_RX 16
+#define NPK_TX 17
 
 // Sensor types
 #define DHT_TYPE DHT11
 
 // Initialize sensors
 DHT dht(DHT_PIN, DHT_TYPE);
+ModbusMaster node;
 
 // Initialize WiFi and MQTT clients
 WiFiClient espClient;
@@ -30,10 +33,6 @@ PubSubClient client(espClient);
 // Timing variables
 unsigned long lastMsg = 0;
 const long interval = 30000; // 30 seconds
-
-// Calibration values for pH sensor
-const float PH_OFFSET = 0.0; // Adjust this based on your sensor calibration
-const float PH_SLOPE = 1.0;  // Adjust this based on your sensor calibration
 
 void setup_wifi() {
   delay(10);
@@ -67,11 +66,23 @@ void reconnect() {
   }
 }
 
-float readPH() {
-  int rawValue = analogRead(PH_PIN);
-  float voltage = (rawValue * 3.3) / 4095.0; // Convert to voltage (ESP32 has 12-bit ADC)
-  float ph = (voltage * PH_SLOPE) + PH_OFFSET;
-  return ph;
+void readNPK(float &nitrogen, float &phosphorus, float &potassium) {
+  uint8_t result;
+  uint16_t data[6];
+  
+  // Read NPK values
+  result = node.readInputRegisters(0x0000, 6);
+  
+  if (result == node.ku8MBSuccess) {
+    nitrogen = node.getResponseBuffer(0) / 10.0;
+    phosphorus = node.getResponseBuffer(1) / 10.0;
+    potassium = node.getResponseBuffer(2) / 10.0;
+  } else {
+    nitrogen = 0;
+    phosphorus = 0;
+    potassium = 0;
+    Serial.println("Failed to read NPK sensor");
+  }
 }
 
 void setup() {
@@ -80,7 +91,10 @@ void setup() {
   // Initialize sensors
   dht.begin();
   pinMode(MOISTURE_PIN, INPUT);
-  pinMode(PH_PIN, INPUT);
+  
+  // Initialize NPK sensor
+  Serial2.begin(9600, SERIAL_8N1, NPK_RX, NPK_TX);
+  node.begin(1, Serial2);
   
   setup_wifi();
   client.setServer(mqtt_server, mqtt_port);
@@ -100,7 +114,8 @@ void loop() {
     float temperature = dht.readTemperature();
     float humidity = dht.readHumidity();
     int moisture = analogRead(MOISTURE_PIN);
-    float ph = readPH();
+    float nitrogen, phosphorus, potassium;
+    readNPK(nitrogen, phosphorus, potassium);
     
     // Check if any reads failed
     if (isnan(temperature) || isnan(humidity)) {
@@ -113,7 +128,9 @@ void loop() {
     doc["temperature"] = temperature;
     doc["humidity"] = humidity;
     doc["moisture"] = moisture;
-    doc["ph"] = ph;
+    doc["nitrogen"] = nitrogen;
+    doc["phosphorus"] = phosphorus;
+    doc["potassium"] = potassium;
     doc["timestamp"] = now;
     
     // Serialize JSON to string

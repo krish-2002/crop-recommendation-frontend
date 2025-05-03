@@ -24,12 +24,21 @@ class TestIntegration(unittest.TestCase):
             'temperature': 25.5,
             'humidity': 60.0,
             'moisture': 500,
-            'ph': 6.5
+            'nitrogen': 45.0,
+            'phosphorus': 35.0,
+            'potassium': 40.0
         }
 
         # 2. Verify sensor data is saved
         with app.app_context():
-            sensor_data = SensorData(**test_payload)
+            sensor_data = SensorData(
+                temperature=test_payload['temperature'],
+                humidity=test_payload['humidity'],
+                moisture=test_payload['moisture'],
+                nitrogen=test_payload['nitrogen'],
+                phosphorus=test_payload['phosphorus'],
+                potassium=test_payload['potassium']
+            )
             db.session.add(sensor_data)
             db.session.commit()
 
@@ -73,7 +82,9 @@ class TestIntegration(unittest.TestCase):
                 'temperature': 'invalid',
                 'humidity': 60.0,
                 'moisture': 500,
-                'ph': 6.5
+                'nitrogen': 45.0,
+                'phosphorus': 35.0,
+                'potassium': 40.0
             }
             response = self.client.post('/api/sensor-data',
                                       data=json.dumps(invalid_data),

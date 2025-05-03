@@ -35,7 +35,7 @@ def check_dataset():
         print("- K (Potassium)")
         print("- temperature")
         print("- humidity")
-        print("- ph")
+        print("- moisture")
         print("- rainfall")
         print("- label (crop name)")
         return False

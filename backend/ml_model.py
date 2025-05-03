@@ -14,7 +14,7 @@ class CropRecommendationModel:
         self.model = None
         self.label_encoders = {}
         self.feature_columns = [
-            'N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall',
+            'N', 'P', 'K', 'temperature', 'humidity', 'moisture', 'rainfall',
             'soil_type', 'weather', 'region'
         ]
         self.categorical_columns = ['soil_type', 'weather', 'region']
@@ -28,7 +28,7 @@ class CropRecommendationModel:
             df = pd.read_csv(file_path)
             
             # Verify required columns
-            required_columns = ['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall', 'label']
+            required_columns = ['N', 'P', 'K', 'temperature', 'humidity', 'moisture', 'rainfall', 'label']
             missing_columns = [col for col in required_columns if col not in df.columns]
             if missing_columns:
                 raise ValueError(f"Missing required columns: {missing_columns}")

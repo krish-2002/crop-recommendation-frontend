@@ -18,7 +18,7 @@ def validate_dataset(file_path):
             print(f"- {col}")
         
         # Check for required columns
-        required_columns = ['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall', 'label']
+        required_columns = ['N', 'P', 'K', 'temperature', 'humidity', 'moisture', 'rainfall', 'label']
         missing_columns = [col for col in required_columns if col not in df.columns]
         
         if missing_columns:

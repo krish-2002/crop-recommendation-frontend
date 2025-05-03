@@ -9,7 +9,9 @@ class SensorData(db.Model):
     temperature = db.Column(db.Float)
     humidity = db.Column(db.Float)
     moisture = db.Column(db.Integer)
-    ph = db.Column(db.Float)
+    nitrogen = db.Column(db.Float)
+    phosphorus = db.Column(db.Float)
+    potassium = db.Column(db.Float)
     prediction = db.Column(db.String(50))
     confidence = db.Column(db.Float)
 
@@ -20,7 +22,9 @@ class SensorData(db.Model):
             'temperature': self.temperature,
             'humidity': self.humidity,
             'moisture': self.moisture,
-            'ph': self.ph,
+            'nitrogen': self.nitrogen,
+            'phosphorus': self.phosphorus,
+            'potassium': self.potassium,
             'prediction': self.prediction,
             'confidence': self.confidence
         }
@@ -34,7 +38,9 @@ class FarmerInput(db.Model):
     temperature = db.Column(db.Float)     # Current temperature
     humidity = db.Column(db.Float)        # Current humidity
     moisture = db.Column(db.Integer)      # Current soil moisture
-    ph = db.Column(db.Float)              # Current soil pH
+    nitrogen = db.Column(db.Float)        # Nitrogen content
+    phosphorus = db.Column(db.Float)      # Phosphorus content
+    potassium = db.Column(db.Float)       # Potassium content
     prediction = db.Column(db.String(50)) # Recommended crop
     confidence = db.Column(db.Float)      # Prediction confidence
 
@@ -48,7 +54,9 @@ class FarmerInput(db.Model):
             'temperature': self.temperature,
             'humidity': self.humidity,
             'moisture': self.moisture,
-            'ph': self.ph,
+            'nitrogen': self.nitrogen,
+            'phosphorus': self.phosphorus,
+            'potassium': self.potassium,
             'prediction': self.prediction,
             'confidence': self.confidence
         }
