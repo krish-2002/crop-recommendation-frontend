@@ -412,7 +412,9 @@
 
     <script>
         // API endpoint configuration
-        const API_BASE_URL = 'http://localhost:5000';  // Local backend
+        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:5000'  // Local development
+            : 'https://krish-2002.github.io/crop-recommendation-frontend';  // GitHub Pages URL
 
         // Initialize Chart.js
         const ctx = document.getElementById('sensorChart').getContext('2d');
